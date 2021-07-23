@@ -1,0 +1,943 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- simple types -->
+  <xs:simpleType name="normalizedPairType">
+    <xs:restriction>
+      <xs:simpleType>
+        <xs:list itemType="xs:float" />
+      </xs:simpleType>
+      <xs:minLength value="1" />
+      <xs:maxLength value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="normalizedRectType">
+    <xs:restriction>
+      <xs:simpleType>
+        <xs:list itemType="xs:float" />
+      </xs:simpleType>
+      <xs:minLength value="1" />
+      <xs:maxLength value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="pathType">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+  <xs:simpleType name="colorType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:hexBinary">
+          <xs:minLength value="3" />
+          <xs:maxLength value="4" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string" />
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="repeatType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="forever" />
+          <xs:enumeration value="" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+
+  <!-- enumerations -->
+  <xs:simpleType name="directionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="vertical" />
+      <xs:enumeration value="horizontal" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="horizontalAlignmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left" />
+      <xs:enumeration value="right" />
+      <xs:enumeration value="center" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="verticalAlignmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top" />
+      <xs:enumeration value="bottom" />
+      <xs:enumeration value="center" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="imageSourceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="image" />
+      <xs:enumeration value="thumbnail" />
+      <xs:enumeration value="marquee" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="scrollBarAlignmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left" />
+      <xs:enumeration value="top" />
+      <xs:enumeration value="reversed" />
+      <xs:enumeration value="outer" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="centerSelectionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="true" />
+      <xs:enumeration value="partial" />
+      <xs:enumeration value="false" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="selectionModeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="full" />
+      <xs:enumeration value="image" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="imageSizeModeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="maxSize" />
+      <xs:enumeration value="minSize" />
+      <xs:enumeration value="size" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="autoScrollType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="horizontal" />
+      <xs:enumeration value="vertical" />
+      <xs:enumeration value="none" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="effectType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="slideRight" />
+      <xs:enumeration value="size" />
+      <xs:enumeration value="bump" />
+      <xs:enumeration value="none" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="carouselTypeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="horizontal" />
+      <xs:enumeration value="vertical" />
+      <xs:enumeration value="horizontal_wheel" />
+      <xs:enumeration value="vertical_wheel" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="logoAlignmentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top" />
+      <xs:enumeration value="bottom" />
+      <xs:enumeration value="center" />
+      <xs:enumeration value="left" />
+      <xs:enumeration value="right" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="defaultTransitionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="instant" />
+      <xs:enumeration value="fade" />
+      <xs:enumeration value="slide" />
+      <xs:enumeration value="fade &amp; slide" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="animationPropertyType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="pos" />
+      <xs:enumeration value="size" />
+      <xs:enumeration value="x" />
+      <xs:enumeration value="y" />
+      <xs:enumeration value="w" />
+      <xs:enumeration value="h" />
+      <xs:enumeration value="scale" />
+      <xs:enumeration value="scaleOrigin" />
+      <xs:enumeration value="color" />
+      <xs:enumeration value="opacity" />
+      <xs:enumeration value="rotation" />
+      <xs:enumeration value="rotationOrigin" />
+      <xs:enumeration value="zIndex" />
+      <xs:enumeration value="offsetX" />
+      <xs:enumeration value="offsetY" />
+      <xs:enumeration value="margin" />
+      <xs:enumeration value="padding" />
+      <xs:enumeration value="clipRect" />
+      <xs:enumeration value="maxSize" />
+      <xs:enumeration value="minSize" />
+      <xs:enumeration value="origin" />
+      <xs:enumeration value="colorEnd" />
+      <xs:enumeration value="reflexion" />
+      <xs:enumeration value="roundCorners" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="animationModeType">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Linear" />
+          <xs:enumeration value="EaseIn" />
+          <xs:enumeration value="EaseInCubic" />
+          <xs:enumeration value="EaseInQuint" />
+          <xs:enumeration value="EaseOut" />
+          <xs:enumeration value="EaseOutCubic" />
+          <xs:enumeration value="EaseOutQuint" />
+          <xs:enumeration value="EaseInOut" />
+          <xs:enumeration value="Bump" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[Ll]inear" />
+          <xs:pattern value="[Ee]ase[Ii]n" />
+          <xs:pattern value="[Ee]ase[Ii]n[Cc]ubic" />
+          <xs:pattern value="[Ee]ase[Ii]n[Qq]uint" />
+          <xs:pattern value="[Ee]ase[Oo]ut" />
+          <xs:pattern value="[Ee]ase[Oo]ut[Cc]ubic" />
+          <xs:pattern value="[Ee]ase[Oo]ut[Qq]uint" />
+          <xs:pattern value="[Ee]ase[Ii]n[Oo]ut" />
+          <xs:pattern value="[Bb]ump" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+
+  <xs:simpleType name="eventType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="activate" />
+      <xs:enumeration value="activateNext" />
+      <xs:enumeration value="activatePrev" />
+      <xs:enumeration value="open" />
+      <xs:enumeration value="deactivate" />
+      <xs:enumeration value="deactivateNext" />
+      <xs:enumeration value="deactivatePrev" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+
+
+  <!-- reused attribute groups -->
+  <xs:attributeGroup name="filterAttributeGroup">
+    <xs:attribute name="region" type="xs:string" />
+    <xs:attribute name="lang" type="xs:string" />
+    <xs:attribute name="tinyScreen" type="xs:boolean" />
+    <xs:attribute name="verticalScreen" type="xs:boolean" />
+    <xs:attribute name="ifHelpPrompts" type="xs:boolean" />
+    <xs:attribute name="ifCheevos" type="xs:boolean" />
+    <xs:attribute name="ifArch" type="xs:string" />
+    <xs:attribute name="ifNotArch" type="xs:string" />
+    <xs:attribute name="ifSubset" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="subsetAttributeGroup">
+    <xs:attribute name="subset" type="xs:string" />
+    <xs:attribute name="displayName" type="xs:string" />
+    <xs:attribute name="subSetDisplayName" type="xs:string" />
+    <xs:attribute name="appliesTo" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- complex types -->
+  <xs:complexType name="variablesType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:any processContents="lax" />
+    </xs:sequence>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="includeType">
+    <xs:simpleContent>
+      <xs:extension base="pathType">
+        <xs:attributeGroup ref="filterAttributeGroup" />
+        <xs:attributeGroup ref="subsetAttributeGroup" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="subsetType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="include" type="includeType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attributeGroup ref="subsetAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="animationType">
+    <xs:attribute name="property" type="animationPropertyType" use="required" />
+    <xs:attribute name="from" type="xs:string" />
+    <xs:attribute name="to" type="xs:string" />
+    <xs:attribute name="begin" type="xs:int" />
+    <xs:attribute name="duration" type="xs:int" />
+    <xs:attribute name="repeat" type="repeatType" />
+    <xs:attribute name="autoReverse" type="xs:boolean" />
+    <xs:attribute name="mode" type="animationModeType" />
+  </xs:complexType>
+
+  <xs:complexType name="storyboardType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="animation" type="animationType" />
+    </xs:choice>
+    <xs:attribute name="event" type="eventType" />
+    <xs:attribute name="repeat" type="repeatType" />
+  </xs:complexType>
+
+  <xs:complexType name="controlType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L25 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="offset" type="normalizedPairType" />
+      <xs:element name="offsetX" type="xs:float" />
+      <xs:element name="offsetY" type="xs:float" />
+      <xs:element name="clipRect" type="normalizedRectType" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="imageType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L47 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="padding" type="normalizedRectType" />
+      <xs:element name="offset" type="normalizedPairType" />
+      <xs:element name="offsetX" type="xs:float" />
+      <xs:element name="offsetY" type="xs:float" />
+      <xs:element name="clipRect" type="normalizedRectType" />
+      <xs:element name="maxSize" type="normalizedPairType" />
+      <xs:element name="minSize" type="normalizedPairType" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="path" type="pathType" />
+      <xs:element name="default" type="pathType" />
+      <xs:element name="tile" type="xs:boolean" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="colorEnd" type="colorType" />
+      <xs:element name="gradientType" type="directionType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="reflexion" type="normalizedPairType" />
+      <xs:element name="reflexionOnFrame" type="xs:boolean" />
+      <xs:element name="horizontalAlignment" type="horizontalAlignmentType" />
+      <xs:element name="verticalAlignment" type="verticalAlignmentType" />
+      <xs:element name="roundCorners" type="xs:float" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="flipX" type="xs:boolean" />
+      <xs:element name="flipY" type="xs:boolean" />
+      <xs:element name="linearSmooth" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="extra" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="imagegridType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L87 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="margin" type="normalizedPairType" />
+      <xs:element name="padding" type="normalizedRectType" />
+      <xs:element name="cellProportion" type="xs:float" />
+      <xs:element name="autoLayout" type="normalizedPairType" />
+      <xs:element name="autoLayoutSelectedZoom" type="xs:float" />
+      <xs:element name="animateSelection" type="xs:boolean" />
+      <xs:element name="imageSource" type="imageSourceType" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="gameImage" type="pathType" />
+      <xs:element name="folderImage" type="pathType" />
+      <xs:element name="logoBackgroundImage" type="pathType" />
+      <xs:element name="showVideoAtDelay" type="xs:float" />
+      <xs:element name="scrollDirection" type="directionType" />
+      <xs:element name="scrollSound" type="pathType" />
+      <xs:element name="scrollbarColor" type="colorType" />
+      <xs:element name="scrollbarSize" type="xs:float" />
+      <xs:element name="scrollbarCorner" type="xs:float" />
+      <xs:element name="scrollbarAlignment" type="scrollBarAlignmentType" />
+      <xs:element name="centerSelection" type="centerSelectionType" />
+      <xs:element name="scrollLoop" type="xs:boolean" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="gridtileType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L123 -->
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="padding" type="normalizedRectType" />
+      <xs:element name="imageColor" type="colorType" />
+      <xs:element name="backgroundImage" type="pathType" />
+      <xs:element name="backgroundCornerSize" type="normalizedPairType" />
+      <xs:element name="backgroundColor" type="colorType" />
+      <xs:element name="backgroundCenterColor" type="colorType" />
+      <xs:element name="backgroundEdgeColor" type="colorType" />
+      <xs:element name="selectionMode" type="selectionModeType" />
+      <xs:element name="reflexion" type="normalizedPairType" />
+      <xs:element name="imageSizeMode" type="imageSizeModeType" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="textType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L135 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="text" type="xs:string" />
+      <xs:element name="backgroundColor" type="colorType" />
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="alignment" type="horizontalAlignmentType" />
+      <xs:element name="verticalAlignment" type="verticalAlignmentType" />
+      <xs:element name="forceUppercase" type="xs:boolean" />
+      <xs:element name="lineSpacing" type="xs:float" />
+      <xs:element name="value" type="xs:string" />
+      <xs:element name="reflexion" type="normalizedPairType" />
+      <xs:element name="reflexionOnFrame" type="xs:boolean" />
+      <xs:element name="glowColor" type="colorType" />
+      <xs:element name="glowSize" type="xs:float" />
+      <xs:element name="glowOffset" type="normalizedPairType" />
+      <xs:element name="singleLineScroll" type="xs:boolean" />
+      <xs:element name="autoScroll" type="autoScrollType" />
+      <xs:element name="padding" type="normalizedRectType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="extra" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="textlistType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L175 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="selectorHeight" type="xs:float" />
+      <xs:element name="selectorOffsetY" type="xs:float" />
+      <xs:element name="selectorColor" type="colorType" />
+      <xs:element name="selectorColorEnd" type="colorType" />
+      <xs:element name="selectorGradientType" type="directionType" />
+      <xs:element name="selectorImagePath" type="pathType" />
+      <xs:element name="selectorImageTile" type="xs:boolean" />
+      <xs:element name="selectedColor" type="colorType" />
+      <xs:element name="primaryColor" type="colorType" />
+      <xs:element name="secondaryColor" type="colorType" />
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="scrollSound" type="pathType" />
+      <xs:element name="alignment" type="horizontalAlignmentType" />
+      <xs:element name="horizontalMargin" type="xs:float" />
+      <xs:element name="forceUppercase" type="xs:boolean" />
+      <xs:element name="lineSpacing" type="xs:float" />
+      <xs:element name="lines" type="xs:int" />
+      <xs:element name="scrollbarColor" type="colorType" />
+      <xs:element name="scrollbarSize" type="xs:float" />
+      <xs:element name="scrollbarCorner" type="xs:float" />
+      <xs:element name="scrollbarAlignment" type="scrollBarAlignmentType" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="ninepatchType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L221 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="padding" type="normalizedRectType" />
+      <xs:element name="path" type="pathType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="cornerSize" type="normalizedPairType" />
+      <xs:element name="centerColor" type="colorType" />
+      <xs:element name="edgeColor" type="colorType" />
+      <xs:element name="animateColor" type="colorType" />
+      <xs:element name="animateColorTime" type="xs:float" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="extra" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="datetimeType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L246 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="backgroundColor" type="colorType" />
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="alignment" type="horizontalAlignmentType" />
+      <xs:element name="forceUppercase" type="xs:boolean" />
+      <xs:element name="lineSpacing" type="xs:float" />
+      <xs:element name="value" type="xs:string" />
+      <xs:element name="format" type="xs:string" />
+      <xs:element name="displayRelative" type="xs:boolean" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="ratingType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L273 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="offset" type="normalizedPairType" />
+      <xs:element name="offsetX" type="xs:float" />
+      <xs:element name="offsetY" type="xs:float" />
+      <xs:element name="clipRect" type="normalizedRectType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="unfilledColor" type="colorType" />
+      <xs:element name="filledPath" type="pathType" />
+      <xs:element name="unfilledPath" type="pathType" />
+      <xs:element name="horizontalAlignment" type="horizontalAlignmentType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="soundType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L273 -->
+      <xs:element name="path" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="controllerActivityType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L302 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="itemSpacing" type="xs:float" />
+      <xs:element name="horizontalAlignment" type="horizontalAlignmentType" />
+      <xs:element name="imagePath" type="pathType" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="activityColor" type="colorType" />
+      <xs:element name="hotkeyColor" type="colorType" />
+      <xs:element name="networkIcon" type="pathType" />
+      <xs:element name="incharge" type="pathType" />
+      <xs:element name="full" type="pathType" />
+      <xs:element name="at75" type="pathType" />
+      <xs:element name="at50" type="pathType" />
+      <xs:element name="at25" type="pathType" />
+      <xs:element name="empty" type="pathType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="helpsystemType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L356 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="textColor" type="colorType" />
+      <xs:element name="iconColor" type="colorType" />
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="iconUpDown" type="pathType" />
+      <xs:element name="iconLeftRight" type="pathType" />
+      <xs:element name="iconUpDownLeftRight" type="pathType" />
+      <xs:element name="iconA" type="pathType" />
+      <xs:element name="iconB" type="pathType" />
+      <xs:element name="iconX" type="pathType" />
+      <xs:element name="iconY" type="pathType" />
+      <xs:element name="iconL" type="pathType" />
+      <xs:element name="iconR" type="pathType" />
+      <xs:element name="iconStart" type="pathType" />
+      <xs:element name="iconSelect" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="videoType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L374 -->
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="x" type="xs:float" />
+      <xs:element name="y" type="xs:float" />
+      <xs:element name="h" type="xs:float" />
+      <xs:element name="w" type="xs:float" />
+      <xs:element name="offset" type="normalizedPairType" />
+      <xs:element name="offsetX" type="xs:float" />
+      <xs:element name="offsetY" type="xs:float" />
+      <xs:element name="clipRect" type="normalizedRectType" />
+      <xs:element name="scale" type="xs:float" />
+      <xs:element name="scaleOrigin" type="normalizedPairType" />
+      <xs:element name="opacity" type="xs:float" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="rotation" type="xs:float" />
+      <xs:element name="rotationOrigin" type="normalizedPairType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="zIndex" type="xs:float" />
+      <xs:element name="maxSize" type="normalizedPairType" />
+      <xs:element name="minSize" type="normalizedPairType" />
+      <xs:element name="default" type="pathType" />
+      <xs:element name="path" type="pathType" />
+      <xs:element name="delay" type="xs:float" />
+      <xs:element name="effect" type="effectType" />
+      <xs:element name="roundCorners" type="xs:float" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="snapshotSource" type="imageSourceType" />
+      <xs:element name="defaultSnapshot" type="pathType" />
+      <xs:element name="loops" type="xs:int" />
+      <xs:element name="audio" type="xs:boolean" />
+      <xs:element name="linearSmooth" type="xs:boolean" />
+      <xs:element name="showSnapshotNoVideo" type="xs:boolean" />
+      <xs:element name="showSnapshotDelay" type="xs:boolean" />
+      <xs:element name="storyboard" type="storyboardType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="extra" type="xs:boolean" />
+  </xs:complexType>
+
+  <xs:complexType name="carouselType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L412 -->
+      <xs:element name="type" type="carouselTypeType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="colorEnd" type="colorType" />
+      <xs:element name="gradientType" type="directionType" />
+      <xs:element name="logoScale" type="xs:float" />
+      <xs:element name="logoRotation" type="xs:float" />
+      <xs:element name="logoRotationOrigin" type="normalizedPairType" />
+      <xs:element name="logoSize" type="normalizedPairType" />
+      <xs:element name="logoPos" type="normalizedPairType" />
+      <xs:element name="logoAlignment" type="logoAlignmentType" />
+      <xs:element name="maxLogoCount" type="xs:int" />
+      <xs:element name="systemInfoDelay" type="xs:float" />
+      <xs:element name="systemInfoCountOnly" type="xs:boolean" />
+      <xs:element name="defaultTransition" type="defaultTransitionType" />
+      <xs:element name="minLogoOpacity" type="xs:float" />
+      <xs:element name="transitionSpeed" type="xs:float" />
+      <xs:element name="scrollSound" type="pathType" />
+      <xs:element name="zIndex" type="xs:float" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="gamecarouselType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L435 -->
+      <xs:element name="type" type="carouselTypeType" />
+      <xs:element name="size" type="normalizedPairType" />
+      <xs:element name="pos" type="normalizedPairType" />
+      <xs:element name="origin" type="normalizedPairType" />
+      <xs:element name="imageSource" type="imageSourceType" />
+      <xs:element name="logoScale" type="xs:float" />
+      <xs:element name="logoRotation" type="xs:float" />
+      <xs:element name="logoRotationOrigin" type="normalizedPairType" />
+      <xs:element name="logoSize" type="normalizedPairType" />
+      <xs:element name="logoPos" type="normalizedPairType" />
+      <xs:element name="logoAlignment" type="logoAlignmentType" />
+      <xs:element name="maxLogoCount" type="xs:int" />
+      <xs:element name="defaultTransition" type="defaultTransitionType" />
+      <xs:element name="minLogoOpacity" type="xs:float" />
+      <xs:element name="transitionSpeed" type="xs:float" />
+      <xs:element name="scrollSound" type="pathType" />
+      <xs:element name="zIndex" type="xs:float" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuTextType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L454 -->
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="separatorColor" type="colorType" />
+      <xs:element name="selectorColor" type="colorType" />
+      <xs:element name="selectorColorEnd" type="colorType" />
+      <xs:element name="selectorGradientType" type="directionType" />
+      <xs:element name="selectedColor" type="colorType" />
+      <xs:element name="color" type="colorType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuTextSmallType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L463 -->
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="color" type="colorType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuGroupType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L467 -->
+      <xs:element name="fontPath" type="pathType" />
+      <xs:element name="fontSize" type="xs:float" />
+      <xs:element name="lineSpacing" type="xs:float" />
+      <xs:element name="alignment" type="horizontalAlignmentType" />
+      <xs:element name="backgroundColor" type="colorType" />
+      <xs:element name="separatorColor" type="colorType" />
+      <xs:element name="visible" type="xs:boolean" />
+      <xs:element name="color" type="colorType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuBackgroundType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L476 -->
+      <xs:element name="path" type="pathType" />
+      <xs:element name="fadePath" type="pathType" />
+      <xs:element name="color" type="colorType" />
+      <xs:element name="centerColor" type="colorType" />
+      <xs:element name="cornerSize" type="normalizedPairType" />
+      <xs:element name="scrollbarColor" type="colorType" />
+      <xs:element name="scrollbarSize" type="xs:float" />
+      <xs:element name="scrollbarCorner" type="xs:float" />
+      <xs:element name="scrollbarAlignment" type="scrollBarAlignmentType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuIconsType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L486 -->
+      <xs:element name="iconSystem" type="pathType" />
+      <xs:element name="iconUpdates" type="pathType" />
+      <xs:element name="iconControllers" type="pathType" />
+      <xs:element name="iconGames" type="pathType" />
+      <xs:element name="iconUI" type="pathType" />
+      <xs:element name="iconSound" type="pathType" />
+      <xs:element name="iconNetwork" type="pathType" />
+      <xs:element name="iconScraper" type="pathType" />
+      <xs:element name="iconAdvanced" type="pathType" />
+      <xs:element name="iconQuit" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuSwitchType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L497 -->
+      <xs:element name="pathOn" type="pathType" />
+      <xs:element name="pathOff" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuTextEditType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L500 -->
+      <xs:element name="active" type="pathType" />
+      <xs:element name="inactive" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuSliderType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L503 -->
+      <xs:element name="path" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="menuButtonType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <!-- https://github.com/batocera-linux/batocera-emulationstation/blob/master/es-core/src/ThemeData.cpp#L505 -->
+      <xs:element name="cornerSize" type="normalizedPairType" />
+      <xs:element name="path" type="pathType" />
+      <xs:element name="filledPath" type="pathType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="viewType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="control" type="controlType" />
+      <xs:element name="image" type="imageType" />
+      <xs:element name="imagegrid" type="imagegridType" />
+      <xs:element name="gridtile" type="gridtileType" />
+      <xs:element name="video" type="videoType" />
+      <xs:element name="text" type="textType" />
+      <xs:element name="textlist" type="textlistType" />
+      <xs:element name="ninepatch" type="ninepatchType" />
+      <xs:element name="rating" type="ratingType" />
+      <xs:element name="datetime" type="datetimeType" />
+      <xs:element name="sound" type="soundType" />
+      <xs:element name="helpsystem" type="helpsystemType" />
+      <xs:element name="carousel" type="carouselType" />
+      <xs:element name="controllerActivity" type="controllerActivityType" />
+      <xs:element name="gamecarousel" type="gamecarouselType" />
+      <xs:element name="menuText" type="menuTextType" />
+      <xs:element name="menuTextSmall" type="menuTextSmallType" />
+      <xs:element name="menuGroup" type="menuGroupType" />
+      <xs:element name="menuBackground" type="menuBackgroundType" />
+      <xs:element name="menuIcons" type="menuIconsType" />
+      <xs:element name="menuSwitch" type="menuSwitchType" />
+      <xs:element name="menuTextEdit" type="menuTextEditType" />
+      <xs:element name="menuSlider" type="menuSliderType" />
+      <xs:element name="menuButton" type="menuButtonType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+  </xs:complexType>
+
+  <xs:complexType name="customViewType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="control" type="controlType" />
+      <xs:element name="image" type="imageType" />
+      <xs:element name="imagegrid" type="imagegridType" />
+      <xs:element name="gridtile" type="gridtileType" />
+      <xs:element name="video" type="videoType" />
+      <xs:element name="text" type="textType" />
+      <xs:element name="textlist" type="textlistType" />
+      <xs:element name="ninepatch" type="ninepatchType" />
+      <xs:element name="rating" type="ratingType" />
+      <xs:element name="datetime" type="datetimeType" />
+      <xs:element name="sound" type="soundType" />
+      <xs:element name="helpsystem" type="helpsystemType" />
+      <xs:element name="gamecarousel" type="gamecarouselType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="inherits" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="featureType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="view" type="viewType" />
+      <xs:element name="customView" type="customViewType" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttributeGroup" />
+    <xs:attribute name="supported" type="xs:string" use="required" />
+  </xs:complexType>
+
+  <xs:element name="theme">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="formatVersion" type="xs:float" />
+        <xs:element name="variables" type="variablesType" />
+        <xs:element name="include" type="includeType" />
+        <xs:element name="view" type="viewType" />
+        <xs:element name="customView" type="customViewType" />
+        <xs:element name="subset" type="subsetType" />
+        <xs:element name="feature" type="featureType" />
+      </xs:choice>
+      <xs:attribute name="defaultView" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
