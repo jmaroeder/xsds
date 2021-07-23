@@ -1,0 +1,1 @@
+- [emulationstation/theme.xsd](emulationstation/theme.xsd)
